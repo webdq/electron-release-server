@@ -22,19 +22,16 @@
     "ng-file-upload": "~12.2.13",
     "angular-PubSub": "angular.pubsub#*",
     "ng-device-detector": "~3.0.1",
-    "compare-versions": "~3.0.0"
+    "compare-versions": "~3.0.0",
+    "bluebird": "~3.7.2"
   },
   "appPath": "app",
   "overrides": {
     "angular-xeditable": {
-      "main": [
-        "dist/js/xeditable.min.js"
-      ]
+      "main": ["dist/js/xeditable.min.js"]
     },
     "bootstrap-sass-official": {
-      "main": [
-        "assets/stylesheets/_bootstrap.scss"
-      ]
+      "main": ["assets/stylesheets/_bootstrap.scss"]
     }
   },
   "resolutions": {

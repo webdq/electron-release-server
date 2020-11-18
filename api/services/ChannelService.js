@@ -1,11 +1,11 @@
 /**
  * Platform Service
  */
-
-var _ = require('lodash');
+"use strict";
+var _ = require("lodash");
 
 var ChannelService = {
-  availableChannels: sails.config.channels
+  availableChannels: sails.config.channels,
 };
 
 /**
@@ -13,17 +13,16 @@ var ChannelService = {
  * @param  {String} channel Channel name
  * @return {Array}          Applicable channel names ordered by desc. stability
  */
-ChannelService.getApplicableChannels = function(channel) {
+ChannelService.getApplicableChannels = function (channel) {
   var channelIndex = ChannelService.availableChannels.indexOf(channel);
 
   if (channelIndex === -1) {
-    return ChannelService.availableChannels[ChannelService.availableChannels.length - 1];
+    return ChannelService.availableChannels[
+      ChannelService.availableChannels.length - 1
+    ];
   }
 
-  return ChannelService.availableChannels.slice(
-    0,
-    channelIndex + 1
-  );
+  return ChannelService.availableChannels.slice(0, channelIndex + 1);
 };
 
 module.exports = ChannelService;

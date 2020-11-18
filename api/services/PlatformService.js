@@ -1,20 +1,20 @@
 /**
  * Platform Service
  */
-
-var _ = require('lodash');
-var useragent = require('express-useragent');
+"use strict";
+var _ = require("lodash");
+var useragent = require("express-useragent");
 
 var PlatformService = {
-  LINUX: 'linux',
-  LINUX_32: 'linux_32',
-  LINUX_64: 'linux_64',
-  OSX: 'osx',
-  OSX_32: 'osx_32',
-  OSX_64: 'osx_64',
-  WINDOWS: 'windows',
-  WINDOWS_32: 'windows_32',
-  WINDOWS_64: 'windows_64',
+  LINUX: "linux",
+  LINUX_32: "linux_32",
+  LINUX_64: "linux_64",
+  OSX: "osx",
+  OSX_32: "osx_32",
+  OSX_64: "osx_64",
+  WINDOWS: "windows",
+  WINDOWS_32: "windows_32",
+  WINDOWS_64: "windows_64",
 };
 
 /**
@@ -23,8 +23,8 @@ var PlatformService = {
  * @param  {String} platform Platform ID
  * @return {String}          Platform type name
  */
-PlatformService.toType = function(platform) {
-  return _.head(platform.split('_'));
+PlatformService.toType = function (platform) {
+  return _.head(platform.split("_"));
 };
 
 /**
@@ -32,8 +32,8 @@ PlatformService.toType = function(platform) {
  * @param  {Object} req An express request object
  * @return {String}     String representation of the detected platform
  */
-PlatformService.detectFromRequest = function(req) {
-  var source = req.headers['user-agent'];
+PlatformService.detectFromRequest = function (req) {
+  var source = req.headers["user-agent"];
   var ua = useragent.parse(source);
 
   if (ua.isWindows) return [this.WINDOWS_32, this.WINDOWS_64];
@@ -50,27 +50,24 @@ PlatformService.detectFromRequest = function(req) {
  *                                If false, 32 bit will be added for 64 bit
  * @return {String}               Full platform ID
  */
-PlatformService.detect = function(platformName, strictMatch) {
+PlatformService.detect = function (platformName, strictMatch) {
   var name = platformName.toLowerCase();
-  var prefix = '';
+  var prefix = "";
   var suffixes = [];
 
   // Detect prefix: osx, widnows or linux
-  if (_.includes(name, 'win')) {
+  if (_.includes(name, "win")) {
     prefix = this.WINDOWS;
   }
 
-  if (
-    _.includes(name, 'linux') ||
-    _.includes(name, 'ubuntu')
-  ) {
+  if (_.includes(name, "linux") || _.includes(name, "ubuntu")) {
     prefix = this.LINUX;
   }
 
   if (
-    _.includes(name, 'mac') ||
-    _.includes(name, 'osx') ||
-    name.indexOf('darwin') >= 0
+    _.includes(name, "mac") ||
+    _.includes(name, "osx") ||
+    name.indexOf("darwin") >= 0
   ) {
     prefix = this.OSX;
   }
@@ -80,28 +77,28 @@ PlatformService.detect = function(platformName, strictMatch) {
     prefix === this.OSX ||
     // _.includes(name, 'x64') ||
     // _.includes(name, 'amd64') ||
-    _.includes(name, '64')
+    _.includes(name, "64")
   ) {
-    suffixes.push('64');
+    suffixes.push("64");
 
     if (!strictMatch && prefix !== this.OSX) {
-      suffixes.unshift('32');
+      suffixes.unshift("32");
     }
   } else {
-    suffixes.unshift('32');
+    suffixes.unshift("32");
   }
 
   var result = [];
-  _.forEach(suffixes, function(suffix) {
-    result.push(prefix + '_' + suffix);
+  _.forEach(suffixes, function (suffix) {
+    result.push(prefix + "_" + suffix);
   });
 
   return result;
 };
 
-PlatformService.sanitize = function(platforms) {
+PlatformService.sanitize = function (platforms) {
   var self = this;
-  return _.map(platforms, function(platform) {
+  return _.map(platforms, function (platform) {
     switch (platform) {
       case self.OSX:
       case self.OSX_32:
@@ -112,6 +109,6 @@ PlatformService.sanitize = function(platforms) {
 
     return platform;
   });
-}
+};
 
 module.exports = PlatformService;

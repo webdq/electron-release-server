@@ -112,7 +112,7 @@
         button.btn.btn-sm.btn-success.download-btn(
           ng-repeat="asset in version.assets"
           ng-click="vm.download(asset, version.name, version.flavor.name)"
-          ng-if="vm.filetypes[asset.platform].includes(asset.filetype)"
+          ng-if="vm.filetypes[asset.platform].indexOf(asset.filetype) > -1"
           )
           | {{ vm.availablePlatforms[asset.platform] }}
           | ({{ asset.filetype }})

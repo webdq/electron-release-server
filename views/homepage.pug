@@ -8,14 +8,14 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     base(href="/")
 
-    // bower:css
-    link(rel='stylesheet', href='/bower_components/angular-ui-notification/dist/angular-ui-notification.css')
-    link(rel='stylesheet', href='/bower_components/components-font-awesome/css/font-awesome.css')
-    // endbower
+    <!--bower:css-->
+    <link rel="stylesheet" href="/bower_components/angular-ui-notification/dist/angular-ui-notification.css" />
+    <link rel="stylesheet" href="/bower_components/components-font-awesome/css/font-awesome.css" />
+    <!--endbower-->
 
-    // STYLES
-    link(rel="stylesheet", href="/min/production.min.css")
-    // STYLES END
+    <!--STYLES-->
+    link(rel="stylesheet", href="/styles/importer.css")
+    <!--STYLES END-->
   body(ng-app='app', ng-controller='MainController as main')
     .header
       .navbar.navbar-default(role='navigation')
@@ -42,31 +42,50 @@ html
           |  by Arek Sredzki
 
 
-    // bower:js
-    script(src='/bower_components/angular/angular.js')
-    script(src='/bower_components/jquery/dist/jquery.js')
-    script(src='/bower_components/angular-animate/angular-animate.js')
-    script(src='/bower_components/angular-messages/angular-messages.js')
-    script(src='/bower_components/angular-route/angular-route.js')
-    script(src='/bower_components/angular-sanitize/angular-sanitize.js')
-    script(src='/bower_components/angular-xeditable/dist/js/xeditable.min.js')
-    script(src='/bower_components/lodash/lodash.js')
-    script(src='/bower_components/angular-ui-notification/dist/angular-ui-notification.js')
-    script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
-    script(src='/bower_components/angular-confirm-modal/angular-confirm.min.js')
-    script(src='/bower_components/angular-jwt/dist/angular-jwt.js')
-    script(src='/bower_components/ngstorage/ngStorage.js')
-    script(src='/bower_components/sails.io.js/dist/sails.io.js')
-    script(src='/bower_components/angular-sails/dist/angular-sails.js')
-    script(src='/bower_components/moment/moment.js')
-    script(src='/bower_components/angular-moment/angular-moment.js')
-    script(src='/bower_components/ng-file-upload/ng-file-upload.js')
-    script(src='/bower_components/angular-PubSub/src/angular-pubsub.js')
-    script(src='/bower_components/re-tree/re-tree.js')
-    script(src='/bower_components/ng-device-detector/ng-device-detector.js')
-    script(src='/bower_components/compare-versions/index.js')
-    // endbower
+    <!--bower:js-->
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-messages/angular-messages.js"></script>
+    <script src="/bower_components/angular-route/angular-route.js"></script>
+    <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="/bower_components/lodash/lodash.js"></script>
+    <script src="/bower_components/angular-ui-notification/dist/angular-ui-notification.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/angular-confirm-modal/angular-confirm.js"></script>
+    <script src="/bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="/bower_components/ngstorage/ngStorage.js"></script>
+    <script src="/bower_components/sails.io.js/dist/sails.io.js"></script>
+    <script src="/bower_components/angular-sails/dist/angular-sails.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="/bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="/bower_components/angular-PubSub/src/angular-pubsub.js"></script>
+    <script src="/bower_components/re-tree/re-tree.js"></script>
+    <script src="/bower_components/ng-device-detector/ng-device-detector.js"></script>
+    <script src="/bower_components/compare-versions/index.js"></script>
+    <script src="/bower_components/bluebird/js/browser/bluebird.js"></script>
+    <!--endbower-->
 
-    // SCRIPTS
-    script(src="/min/production.min.js")
-    // SCRIPTS END
+    <!--SCRIPTS-->
+    script(src="/js/main.js")
+    script(src="/js/admin/add-flavor-modal/add-flavor-modal-controller.js")
+    script(src="/js/admin/add-version-asset-modal/add-version-asset-modal-controller.js")
+    script(src="/js/admin/add-version-modal/add-version-modal-controller.js")
+    script(src="/js/admin/admin.js")
+    script(src="/js/admin/edit-version-asset-modal/edit-version-asset-modal-controller.js")
+    script(src="/js/admin/edit-version-modal/edit-version-modal-controller.js")
+    script(src="/js/admin/version-table/version-table-controller.js")
+    script(src="/js/core/auth/auth-service.js")
+    script(src="/js/core/auth/auth.js")
+    script(src="/js/core/auth/login/login-controller.js")
+    script(src="/js/core/auth/logout/logout-controller.js")
+    script(src="/js/core/core.js")
+    script(src="/js/core/data/data-service.js")
+    script(src="/js/core/data/data.js")
+    script(src="/js/core/dependencies/dependencies.js")
+    script(src="/js/core/nav-controller.js")
+    script(src="/js/download/download-controller.js")
+    script(src="/js/home/home-controller.js")
+    <!--SCRIPTS END-->

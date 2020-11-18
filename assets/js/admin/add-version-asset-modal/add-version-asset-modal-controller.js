@@ -1,36 +1,43 @@
-angular.module('app.admin.add-version-asset-modal', [])
-  .controller('AddVersionAssetModalController', ['$scope', 'DataService', '$uibModalInstance', 'version',
-    ($scope, DataService, $uibModalInstance, version) => {
+angular
+  .module("app.admin.add-version-asset-modal", [])
+  .controller("AddVersionAssetModalController", [
+    "$scope",
+    "DataService",
+    "$uibModalInstance",
+    "version",
+    function ($scope, DataService, $uibModalInstance, version) {
       $scope.DataService = DataService;
 
       $scope.versionName = version.name;
       $scope.versionIsAvailable = DataService.checkAvailability(version);
 
       $scope.asset = {
-        name: '',
-        platform: '',
-        file: null
+        name: "",
+        platform: "",
+        file: null,
       };
 
-      $scope.addAsset = function() {
+      $scope.addAsset = function () {
         if (!$scope.asset.name) {
           delete $scope.asset.name;
         }
 
-        DataService.createAsset($scope.asset, version.id)
-          .then(function success(response) {
+        DataService.createAsset($scope.asset, version.id).then(
+          function success(response) {
             $uibModalInstance.close();
-          }, function error(response) {
+          },
+          function error(response) {
             $uibModalInstance.dismiss();
-          });
+          }
+        );
       };
 
-      $scope.updateAssetName = () => {
+      $scope.updateAssetName = function () {
         $scope.namePlaceholder = $scope.asset.file && $scope.asset.file.name;
       };
 
-      $scope.closeModal = function() {
+      $scope.closeModal = function () {
         $uibModalInstance.dismiss();
       };
-    }
+    },
   ]);

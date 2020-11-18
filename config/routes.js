@@ -50,7 +50,7 @@ module.exports.routes = {
   'GET /update/:platform/:version/:channel/RELEASES': 'VersionController.windows',
   'GET /update/:platform/:version/:channel': 'VersionController.general',
 
-  'GET /update/flavor/:flavor/:platform/:version/:channel?': 'VersionController.general',
+  
   'GET /update/flavor/:flavor/:platform/:version/RELEASES': 'VersionController.windows',
   'GET /update/flavor/:flavor/:platform/:version/:channel/RELEASES': 'VersionController.windows',
   'GET /update/flavor/:flavor/:platform/latest.yml': 'VersionController.electronUpdaterWin',
@@ -59,6 +59,7 @@ module.exports.routes = {
   'GET /update/flavor/:flavor/:platform/latest-mac.yml': 'VersionController.electronUpdaterMac',
   'GET /update/flavor/:flavor/:platform/:channel-mac.yml': 'VersionController.electronUpdaterMac',
   'GET /update/flavor/:flavor/:platform/:channel/latest-mac.yml': 'VersionController.electronUpdaterMac',
+  'GET /update/flavor/:flavor/:platform/:version/:channel?': 'VersionController.general',
 
   'GET /notes/:version/:flavor?': 'VersionController.releaseNotes',
 

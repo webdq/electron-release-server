@@ -4,32 +4,43 @@
  * @description :: Server-side logic for managing Flavors
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+"use strict";
+var actionUtil = require("sails/lib/hooks/blueprints/actionUtil");
+var Promise = require("bluebird");
 
-const actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
-const Promise = require('bluebird');
+var destroyAssetAndFile = function (asset, req) {
+  return AssetService.destroy(asset, req)
+    .then(AssetService.deleteFile(asset))
+    .then(function () {
+      return sails.log.info("Destroyed asset:", asset);
+    });
+};
 
-const destroyAssetAndFile = (asset, req) => AssetService
-  .destroy(asset, req)
-  .then(AssetService.deleteFile(asset))
-  .then(() => sails.log.info('Destroyed asset:', asset));
+var destroyAssetsAndFiles = function (version, req) {
+  return version.assets.map(function (asset) {
+    return destroyAssetAndFile(asset, req);
+  });
+};
 
-const destroyAssetsAndFiles = (version, req) => version.assets
-  .map(asset => destroyAssetAndFile(asset, req));
+var destroyVersion = function (version, req) {
+  return VersionService.destroy(version, req).then(function () {
+    return sails.log.info("Destroyed version:", version);
+  });
+};
 
-const destroyVersion = (version, req) => VersionService
-  .destroy(version, req)
-  .then(() => sails.log.info('Destroyed version:', version));
+var destroyVersionAssetsAndFiles = function (version, req) {
+  return Promise.all(destroyAssetsAndFiles(version, req)).then(
+    destroyVersion(version, req)
+  );
+};
 
-const destroyVersionAssetsAndFiles = (version, req) => Promise
-  .all(destroyAssetsAndFiles(version, req))
-  .then(destroyVersion(version, req));
-
-const destroyFlavor = (flavor, req) => FlavorService
-  .destroy(flavor, req)
-  .then(() => sails.log.info('Destroyed flavor:', flavor));
+var destroyFlavor = function (flavor, req) {
+  return FlavorService.destroy(flavor, req).then(function () {
+    return sails.log.info("Destroyed flavor:", flavor);
+  });
+};
 
 module.exports = {
-
   /**
    * Overloaded blueprint function
    * Changes:
@@ -37,37 +48,34 @@ module.exports = {
    * @param {Object} req Incoming request object
    * @param {Object} res Outgoing response object
    */
-  destroy: (req, res) => {
-    const pk = actionUtil.requirePk(req);
+  destroy: function (req, res) {
+    var pk = actionUtil.requirePk(req);
 
-    if (pk === 'default') {
-      res.serverError('Default flavor cannot be deleted.');
+    if (pk === "default") {
+      res.serverError("Default flavor cannot be deleted.");
     } else {
-      Flavor
-        .findOne(pk)
-        .exec((err, flavor) => {
-          if (err) {
-            res.serverError(err);
-          } else if (!flavor) {
-            res.notFound('No flavor found with the specified `name`.');
-          } else {
-            Version
-              .find({ flavor: flavor.name })
-              .populate('assets')
-              .exec((err, versions) => {
-                if (err) {
-                  res.serverError(err);
-                } else {
-                  Promise
-                    .map(versions, version => destroyVersionAssetsAndFiles(version, req))
-                    .then(destroyFlavor(flavor, req))
-                    .then(res.ok(flavor.name))
-                    .error(res.negotiate);
-                }
-              });
-          }
-        });
+      Flavor.findOne(pk).exec(function (err, flavor) {
+        if (err) {
+          res.serverError(err);
+        } else if (!flavor) {
+          res.notFound("No flavor found with the specified `name`.");
+        } else {
+          Version.find({ flavor: flavor.name })
+            .populate("assets")
+            .exec(function (err, versions) {
+              if (err) {
+                res.serverError(err);
+              } else {
+                Promise.map(versions, function (version) {
+                  return destroyVersionAssetsAndFiles(version, req);
+                })
+                  .then(destroyFlavor(flavor, req))
+                  .then(res.ok(flavor.name))
+                  .error(res.negotiate);
+              }
+            });
+        }
+      });
     }
-  }
-
+  },
 };
